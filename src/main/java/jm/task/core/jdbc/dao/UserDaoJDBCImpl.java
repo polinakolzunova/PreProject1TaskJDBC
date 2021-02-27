@@ -72,12 +72,13 @@ public class UserDaoJDBCImpl implements UserDao {
              Statement statement = conn.createStatement()) {
 
             ResultSet rs = statement.executeQuery("select * from users");
-
             while (rs.next()) {
                 list.add(new User(rs.getString("name"),
                         rs.getString("lastName"),
                         rs.getByte("age")));
             }
+            rs.close();
+
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println("Невозможно получить записи! Message: " + e.getMessage());
         }
