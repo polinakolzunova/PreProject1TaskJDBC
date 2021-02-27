@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         UserService userService = new UserServiceImpl();
 
+        // new comment
         // Создание таблицы User(ов)
         userService.createUsersTable();
 
