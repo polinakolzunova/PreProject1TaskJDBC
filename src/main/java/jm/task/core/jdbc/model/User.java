@@ -1,21 +1,24 @@
 package jm.task.core.jdbc.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table
+@Entity
+@Table(name="users")
 public class User {
     @Id
+    @Column(name="id")
     private Long id;
 
-    @Column
+    @Column(name="name")
     private String name;
 
-    @Column
+    @Column(name="lastName")
     private String lastName;
 
-    @Column
+    @Column(name="age")
     private Byte age;
 
     public User() {
@@ -60,17 +63,13 @@ public class User {
         this.age = age;
     }
 
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("[id] = ");
-        sb.append(id);
-        sb.append("; [name] = ");
-        sb.append(name);
-        sb.append("; [lastName] = ");
-        sb.append(lastName);
-        sb.append("; [age] = ");
-        sb.append(age);
-
-        return sb.toString();
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
