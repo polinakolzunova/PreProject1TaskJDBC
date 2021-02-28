@@ -2,13 +2,14 @@ package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
+import jm.task.core.jdbc.util.Util;
 
 public class Main {
     public static void main(String[] args) {
         UserService userService = new UserServiceImpl();
 
-        // new comment
         // Создание таблицы User(ов)
+        userService.dropUsersTable();
         userService.createUsersTable();
 
         for (int i = 1; i <= 4; i++) {
@@ -27,5 +28,8 @@ public class Main {
 
         // Удаление таблицы
         userService.dropUsersTable();
+
+        // закрытие SessionFactory
+        Util.closeSessionFactory();
     }
 }

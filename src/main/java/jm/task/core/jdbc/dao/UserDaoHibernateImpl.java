@@ -97,7 +97,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
-            list = (List<User>) session.createSQLQuery("select * from user").list();
+
+            list = session.createQuery("from jm.task.core.jdbc.model.User").list();
+
             session.getTransaction().commit();
         } catch (Exception e) {
             System.err.println("Невозможно извлечь записи! Message: " + e.getMessage());
