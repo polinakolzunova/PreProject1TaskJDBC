@@ -17,7 +17,7 @@ public class UserDaoJDBCImpl implements UserDao {
              Statement statement = conn.createStatement()) {
 
             statement.executeUpdate("create table users(" +
-                    "id int auto_increment, " +
+                    "id bigint auto_increment, " +
                     "name varchar(100) not null, " +
                     "lastName varchar(100) not null, " +
                     "age int not null, " +
