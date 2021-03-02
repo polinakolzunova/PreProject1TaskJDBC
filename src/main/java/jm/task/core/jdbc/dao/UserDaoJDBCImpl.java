@@ -12,7 +12,7 @@ public class UserDaoJDBCImpl implements UserDao {
     /*
     Результат проверки ментором:
     1. В блоке catch нужно выбрасывать исключения SQLException
-    >>> но в методах интерфейса UserDao не объявлен выброс исключений, его допустимо менять?
+    >>> но ни в методах UserDao, ни в методах UserService не объявлен выброс исключений, их допустимо менять?
     2. Где закрытие соединений в методах дао ?
     >>> используется try-with-resource, соединение объявлено в блоке ресурсов -> автоматически закрывается
     3. Создание таблицы для User(ов) – не должно приводить к исключению, если такая таблица уже существует
@@ -24,7 +24,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
     }
 
-    public void createUsersTable() {
+    public void createUsersTable() throws SQLException {
         try (Connection conn = Util.getMySQLConnection();
              Statement statement = conn.createStatement()) {
 
@@ -36,22 +36,22 @@ public class UserDaoJDBCImpl implements UserDao {
                     "constraint users_pk primary key (id))");
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно создать таблицу! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
     }
 
-    public void dropUsersTable() {
+    public void dropUsersTable() throws SQLException {
         try (Connection conn = Util.getMySQLConnection();
              Statement statement = conn.createStatement()) {
 
             statement.executeUpdate("drop table if exists users");
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно удалить таблицу! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
     }
 
-    public void saveUser(String name, String lastName, byte age) {
+    public void saveUser(String name, String lastName, byte age) throws SQLException {
         try (Connection conn = Util.getMySQLConnection();
              PreparedStatement statement = conn.prepareStatement("insert into users(name, lastName, age) values(?, ?, ?)")) {
 
@@ -61,11 +61,11 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute();
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно удалить таблицу! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
     }
 
-    public void removeUserById(long id) {
+    public void removeUserById(long id) throws SQLException {
         try (Connection conn = Util.getMySQLConnection();
              PreparedStatement statement = conn.prepareStatement("delete from users where id=?")) {
 
@@ -73,11 +73,11 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute();
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно удалить запись! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers() throws SQLException {
         List<User> list = new ArrayList<>();
 
         try (Connection conn = Util.getMySQLConnection();
@@ -92,20 +92,20 @@ public class UserDaoJDBCImpl implements UserDao {
             rs.close();
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно получить записи! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
 
         return list;
     }
 
-    public void cleanUsersTable() {
+    public void cleanUsersTable() throws SQLException {
         try (Connection conn = Util.getMySQLConnection();
              Statement statement = conn.createStatement()) {
 
-            statement.executeUpdate("truncate table if exists users");
+            statement.executeUpdate("truncate table users");
 
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Невозможно очистить таблицу! Message: " + e.getMessage());
+            throw new SQLException(e);
         }
     }
 }
