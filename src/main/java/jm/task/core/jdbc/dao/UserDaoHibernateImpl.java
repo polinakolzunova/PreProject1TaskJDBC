@@ -11,6 +11,16 @@ import java.util.stream.Collector;
 
 public class UserDaoHibernateImpl implements UserDao {
 
+    /*
+    Результат проверки ментором
+    1. В дао вынести Session в переменную класса
+    >>>
+    2. Создание таблицы для User(ов) – не должно приводить к исключению, если такая таблица уже существует
+    >>> done
+    3. Удаление таблицы User(ов) – не должно приводить к исключению, если таблицы не существует
+    >>> done
+     */
+
     public UserDaoHibernateImpl() {
     }
 
@@ -20,7 +30,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
-            session.createSQLQuery("create table user(\n" +
+            session.createSQLQuery("create table if not exists user(\n" +
                     " id bigint auto_increment primary key,\n" +
                     " name varchar(100) not null,\n" +
                     " lastName varchar(100) not null,\n" +
@@ -42,7 +52,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
-            session.createSQLQuery("drop table user")
+            session.createSQLQuery("drop table if exists user")
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
