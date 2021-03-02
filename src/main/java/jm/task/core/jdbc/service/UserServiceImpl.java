@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        if (name != null || name.length() == 0 || lastName == null || lastName.length() == 0 || age < 0) {
+        if (name == null || name.length() == 0 || lastName == null || lastName.length() == 0 || age < 0) {
             return;
         }
         userDao.saveUser(name, lastName, age);
