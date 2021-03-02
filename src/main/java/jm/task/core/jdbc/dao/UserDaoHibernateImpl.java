@@ -14,19 +14,20 @@ public class UserDaoHibernateImpl implements UserDao {
     /*
     Результат проверки ментором
     1. В дао вынести Session в переменную класса
-    >>>
+    >>> done
     2. Создание таблицы для User(ов) – не должно приводить к исключению, если такая таблица уже существует
     >>> done
     3. Удаление таблицы User(ов) – не должно приводить к исключению, если таблицы не существует
     >>> done
      */
 
+    private Session session = null;
+
     public UserDaoHibernateImpl() {
     }
 
     @Override
     public void createUsersTable() {
-        Session session = null;
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
@@ -48,7 +49,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = null;
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
@@ -66,7 +66,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = null;
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
@@ -84,7 +83,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = null;
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
@@ -102,7 +100,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = null;
         List<User> list = null;
         try {
             session = Util.getHibernateSession();
@@ -123,7 +120,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        Session session = null;
         try {
             session = Util.getHibernateSession();
             session.beginTransaction();
